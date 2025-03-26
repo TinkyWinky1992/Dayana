@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ArrowUpDown, Plus } from "lucide-react"
 import {
     Table,
@@ -7,9 +7,9 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "./ui/table"
-import { Button } from "./ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
+} from "../ui/table"
+import { Button } from "../ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 import {
     Dialog,
     DialogContent,
@@ -18,7 +18,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-  } from "./ui/dialog"
+  } from "../ui/dialog"
 
 import {
     ColumnDef,
@@ -32,8 +32,9 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table"
-import {AutoComplete} from './utilsComponents/autocomplete';
-import { useUsersTask } from "../hooks/users.hook";
+import {AutoComplete} from '../utils/autocomplete.utils.component';
+import { useUsersTask } from "../../hooks/users.hook";
+import { AddUserDialog } from './adduserdialog.components';
 type User = {
     name: string
     role: string
@@ -43,7 +44,7 @@ type User = {
 
 
 export const UsersTable = () => {
-    const { userData, setUser } = useUsersTask();
+    const { setEntry, Entry } = useUsersTask();
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
     //@ts-ignore
@@ -52,8 +53,8 @@ export const UsersTable = () => {
     const [page, setPage] = useState(0);
     const [pageSize] = useState(5);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(""); // State to track selected user
-    const [searchValue, setSearchValue] = useState(""); // State to track search input
+    const [selectedUser, setSelectedUser] = useState("");
+    const [searchValue, setSearchValue] = useState("");
 
     const columns: ColumnDef<User>[] = [
         {
@@ -124,7 +125,7 @@ export const UsersTable = () => {
 
 
     const userDelete = () => {
-        setUser(prevUserData =>
+        setEntry(prevUserData =>
             prevUserData.filter((_, index) => !markedRows[index])
         );
         setMarkedRows({});
@@ -132,7 +133,11 @@ export const UsersTable = () => {
 
     }
     const table = useReactTable({
-        data: userData,
+        data: Entry.map((entry) => ({
+            name: entry.employeeName, 
+            role: entry.role,       
+            status: entry.status,    
+        })),
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -140,7 +145,7 @@ export const UsersTable = () => {
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
-        pageCount: Math.ceil(userData.length / pageSize),
+        pageCount: Math.ceil(Entry.length / pageSize),
         state: {
             sorting,
             columnFilters,
@@ -148,9 +153,12 @@ export const UsersTable = () => {
             pagination: { pageIndex: page, pageSize },
         },
         onPaginationChange: (updater) => {
+            console.log("updater", updater);
             if (typeof updater === "function") {
               const newPagination = updater({ pageIndex: page, pageSize });
               setPage(newPagination.pageIndex);
+            } else {
+                setPage(updater.pageIndex); 
             }
           },
           manualPagination: false,
@@ -169,11 +177,11 @@ export const UsersTable = () => {
                     <div className="flex justify-between items-center">
                         <CardTitle className="text-2xl">Users Manager</CardTitle>
                         <AutoComplete                        
-                            items={userData.map((user) => ({ value: user.name, label: user.name }))}
+                            items={Entry.map((user) => ({ value: user.employeeName, label: user.employeeName }))}
                             selectedValue={selectedUser}
-                            onSelectedValueChange={(value) => setSelectedUser(value)} // Update selected user
+                            onSelectedValueChange={(value) => setSelectedUser(value)}
                             searchValue={searchValue}
-                            onSearchValueChange={onValueChange} // Update search input
+                            onSearchValueChange={onValueChange}
                             onChangefunc={(event) =>
                                 table.getColumn("name")?.setFilterValue(event.target.value)}/>
                                 
@@ -229,14 +237,17 @@ export const UsersTable = () => {
                 <div className="flex-1 text-sm text-muted-foreground">
                     {table.getFilteredRowModel().rows.length} users(s) total.
                 </div>
-                <Button
-                    className="bg-gray-800 text-white hover:bg-gray-900"
-                    size="lg"
-                    onClick={() => console.log("Add user clicked")}
-                    
-                >
-                    Add User
-                </Button>
+                
+                <AddUserDialog>
+                    <Button
+                        className="bg-gray-800 text-white hover:bg-gray-900"
+                        size="lg"
+                        onClick={() => console.log("Add user clicked")}
+                        
+                    >
+                        Add User
+                    </Button>
+                </AddUserDialog>
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                     <DialogTrigger asChild>
                     

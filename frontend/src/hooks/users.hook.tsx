@@ -7,24 +7,9 @@ import React, {
     Dispatch,
   } from "react";
   
-  type Task = {
-    id: string;
-    title: string;
-    status: string; // e.g., "Pending", "In Progress", "Completed"
-  }
-  
-  type ScheduleEntry = {
-    employeeId: string;
-    employeeName: string;
-    schedule: {
-      [key: string]: Task[];
-    };
-  }
-  type User = {
-    name: string
-    role: string
-    status: string
-}
+ import { ScheduleEntry, User } from "../entities";
+
+
 
   type DateContext = {
     Entry: ScheduleEntry[];
@@ -37,66 +22,133 @@ import React, {
     {
       employeeId: '1',
       employeeName: 'Daniel',
+      role: 'user',
+      status: 'Active',
       schedule: {
-        Sunday: [{ id: '1', title: 'Prepare Report', status: 'Pending' }],
+        Sunday: [{ id: '2', title: 'בדיקה 11', }],
         Monday: [
-          { id: '2', title: 'Team Meeting', status: 'In Progress' },
-          { id: '3', title: 'Code Review', status: 'Completed' },
+          { id: '11', title: 'בדיקה 1',  },
+          { id: '10', title: "בדיקה 2"},
+        ],
+      },
+    },
+    
+    {
+      employeeId: '2',
+      employeeName: 'Yuval',
+      role: 'admin',
+      status: 'Active',
+      schedule: {
+        Sunday: [{ id: '3', title: 'בדיקה 5',}],
+        Monday: [
+          { id: '6', title: 'בדיקה 3',  },
+          { id: '8', title: 'בדיקה 4', },
         ],
       },
     },
     {
-      employeeId: '1',
-      employeeName: 'Yuval',
+      employeeId: '3',
+      employeeName: 'Ofer',
+      role: 'user',
+      status: 'Active',
       schedule: {
-        Sunday: [{ id: '1', title: 'Prepare Report', status: 'Pending' }],
+        Sunday: [{ id: '4', title: 'בדיקה', }],
         Monday: [
-          { id: '2', title: 'Team Meeting', status: 'In Progress' },
-          { id: '3', title: 'Code Review', status: 'Completed' },
+          { id: '7', title: 'בדיקה 6', },
+          { id: '9', title: 'בדיקה 7', },
         ],
       },
     },
-    // ...other employees
+    {
+      employeeId: '4',
+      employeeName: 'Bahaa',
+      role: 'user',
+      status: 'Active',
+      schedule: {
+        Sunday: [{ id: '5', title: 'בדיקה 8', }],
+        Monday: [
+          { id: '12', title: 'בדיקה 9', },
+          { id: '13', title: 'בדיקה 10', },
+        ],
+      },
+    },
+    {
+      employeeId: '5',
+      employeeName: 'sagi',
+      role: 'user',
+      status: 'Active',
+      schedule: {
+        Sunday: [{ id: '14', title: 'בדיקה בדיקה', }],
+        Monday: [
+          { id: '15', title: 'אבטש', },
+          { id: '16', title: 'אבטש', },
+        ],
+      },
+    },
+
+    {
+      employeeId: '6',
+      employeeName: 'sai',
+      role: 'user',
+      status: 'Active',
+      schedule: {
+        Sunday: [{ id: '14', title: 'בדיקה בדיקה', }],
+        Monday: [
+          { id: '15', title: 'אבטש', },
+          { id: '16', title: 'אבטש', },
+        ],
+      },
+    },
+    
+
   ];
 
 
   const data: User[] = [
     {
+        id: '1',
         name: 'Yuval',
         role: 'Admin',
         status: 'Active'
     },
     {
+        id: '2',
         name: 'Bahaa',
         role: 'User',
         status: 'Offline'
     },
     {
+        id: '3',
         name: 'Daniel',
         role: 'user',
         status: 'Active'
     },
     {
+        id: '4',
         name: 'Ofer',
         role: 'User',
         status: 'Offline'
     },  
     {
+        id  : '5',
         name: 'sagi',
         role: 'User',
         status: 'Offline'
     },  
     {
+        id: '6',  
         name: 'Jane Doe',
         role: 'User',
         status: 'Inactive'
     },    
     {
+        id: '7',
         name: 'Ofri',
         role: 'Admin',
         status: 'Active'
     },  
     {
+        id: '8',
         name: 'nevo',
         role: 'User',
         status: 'Active'

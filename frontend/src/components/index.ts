@@ -1,6 +1,4 @@
-export * from './login.component';
-export * from './schedule.component';
+export * from './login';
 export * from './sidebar.component';
-export * from '../contexts/layout.context';
-export * from './usertable.component';
-
+export * from './schedule';
+export * from './managment';
