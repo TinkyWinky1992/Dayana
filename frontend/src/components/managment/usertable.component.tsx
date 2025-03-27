@@ -35,11 +35,7 @@ import {
 import {AutoComplete} from '../utils/autocomplete.utils.component';
 import { useUsersTask } from "../../hooks/users.hook";
 import { AddUserDialog } from './adduserdialog.components';
-type User = {
-    name: string
-    role: string
-    status: string
-}
+import { ScheduleEntry } from '../../entities';
 
 
 
@@ -56,9 +52,9 @@ export const UsersTable = () => {
     const [selectedUser, setSelectedUser] = useState("");
     const [searchValue, setSearchValue] = useState("");
 
-    const columns: ColumnDef<User>[] = [
+    const columns: ColumnDef<ScheduleEntry>[] = [
         {
-            accessorKey: "name",
+            accessorKey: "employeeName",
             header: ({ column }) => {
                 return (
                     <Button
@@ -71,7 +67,7 @@ export const UsersTable = () => {
                     </Button>
                 )
             },
-            cell: ({ row }) => <div className="font-medium min-w-[200px]">{row.getValue("name")}</div>,
+            cell: ({ row }) => <div className="font-medium min-w-[200px]">{row.getValue("employeeName")}</div>,
         },
         {
             accessorKey: "role",
@@ -133,11 +129,7 @@ export const UsersTable = () => {
 
     }
     const table = useReactTable({
-        data: Entry.map((entry) => ({
-            name: entry.employeeName, 
-            role: entry.role,       
-            status: entry.status,    
-        })),
+        data: Entry,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,

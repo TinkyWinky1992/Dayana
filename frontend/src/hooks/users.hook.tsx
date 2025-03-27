@@ -7,15 +7,13 @@ import React, {
     Dispatch,
   } from "react";
   
- import { ScheduleEntry, User } from "../entities";
+ import { ScheduleEntry } from "../entities";
 
 
 
   type DateContext = {
     Entry: ScheduleEntry[];
     setEntry: Dispatch<SetStateAction<ScheduleEntry[]>>
-    userData: User[]
-    setUser: Dispatch<SetStateAction<User[]>>
   };
 
   const mockData: ScheduleEntry[] = [
@@ -85,75 +83,11 @@ import React, {
         ],
       },
     },
-
-    {
-      employeeId: '6',
-      employeeName: 'sai',
-      role: 'user',
-      status: 'Active',
-      schedule: {
-        Sunday: [{ id: '14', title: 'בדיקה בדיקה', }],
-        Monday: [
-          { id: '15', title: 'אבטש', },
-          { id: '16', title: 'אבטש', },
-        ],
-      },
-    },
     
 
   ];
 
 
-  const data: User[] = [
-    {
-        id: '1',
-        name: 'Yuval',
-        role: 'Admin',
-        status: 'Active'
-    },
-    {
-        id: '2',
-        name: 'Bahaa',
-        role: 'User',
-        status: 'Offline'
-    },
-    {
-        id: '3',
-        name: 'Daniel',
-        role: 'user',
-        status: 'Active'
-    },
-    {
-        id: '4',
-        name: 'Ofer',
-        role: 'User',
-        status: 'Offline'
-    },  
-    {
-        id  : '5',
-        name: 'sagi',
-        role: 'User',
-        status: 'Offline'
-    },  
-    {
-        id: '6',  
-        name: 'Jane Doe',
-        role: 'User',
-        status: 'Inactive'
-    },    
-    {
-        id: '7',
-        name: 'Ofri',
-        role: 'Admin',
-        status: 'Active'
-    },  
-    {
-        id: '8',
-        name: 'nevo',
-        role: 'User',
-        status: 'Active'
-    },    
-]
   
   const DetailsContext = createContext<DateContext | undefined>(undefined);
   
@@ -161,15 +95,12 @@ import React, {
     children,
   }) => {
     const [Entry, setEntry] = useState<ScheduleEntry[]>(mockData);
-    const [userData, setUser] = useState<User[]>(data);
-  
+
     return (
       <DetailsContext.Provider
         value={{
           Entry,
           setEntry,
-          userData,
-          setUser
         }}
       >
         {children}

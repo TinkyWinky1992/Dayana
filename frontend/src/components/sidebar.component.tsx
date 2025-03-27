@@ -13,8 +13,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "../components/ui/sidebar";
-
-export const SideBar = () => {
+export const SideBar:React.FC = () => {
   const navigate = useNavigate();
   const { isAdmin } = useAuth();
   const Usersitems = [
@@ -24,10 +23,16 @@ export const SideBar = () => {
       icon: Calendar,
     },
     {
+      title: "Users Tasks",
+      url: "/usertasks",
+      icon: Calendar
+    },
+    {
       title: "Sign Out",
       url: "/login",
       icon: LogOut,
     },
+
   ];
   const adminItems = [
     {

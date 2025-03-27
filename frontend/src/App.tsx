@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { UsersSettings, UserLogin, SchedulePage } from './pages';
+import { UsersSettings, UserLogin, SchedulePage, UsersTasks } from './pages';
 import { AuthProvider, ThemeProvider } from './contexts';
 import { LayoutWeb } from './contexts/layout.context';
 import { Toaster } from "sonner";
@@ -10,19 +10,25 @@ function App() {
       <AuthProvider>
         <Router>
           <Routes>
-            <Route path="/login" element={<UserLogin />} />
-            <Route path="/" element={
-              <LayoutWeb>
-                <SchedulePage />
-              </LayoutWeb>
-            } />
-            <Route path="/Users" element={
-              <LayoutWeb>
-                <UsersSettings />
-              </LayoutWeb>
-            } />
-          </Routes>
-        </Router>
+              <Route path="/login" element={<UserLogin />} />
+              <Route path="/" element={
+                <LayoutWeb>
+                  <SchedulePage />
+                </LayoutWeb>
+              } />
+              <Route path="/Users" element={
+                <LayoutWeb>
+                  <UsersSettings />
+                </LayoutWeb>
+              } />
+            
+              <Route path="/usertasks" element={
+                  <LayoutWeb>
+                    <UsersTasks/>
+                  </LayoutWeb>
+                } />
+            </Routes>
+          </Router>
         <Toaster
           position="bottom-right"
           dir='rtl'
