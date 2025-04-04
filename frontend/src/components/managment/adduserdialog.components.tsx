@@ -1,5 +1,5 @@
 
-import React, {useEffect, useState} from "react"
+import React, { useState} from "react"
 import {Dialog, DialogClose,DialogTrigger, DialogContent, DialogHeader, DialogDescription } from "../ui/dialog"
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { Label } from "../ui/label";
