@@ -6,8 +6,8 @@ import {
   LogOut,
   UserPen,
   ChevronDown,
-  ChevronRight,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import {
   Sidebar,
@@ -27,7 +27,7 @@ export const SideBar: React.FC = () => {
   const taskItems = [
     {
       title: "Schedule",
-      url: "/",
+      url: "/Schedule",
       icon: Calendar,
     },
     {
@@ -58,7 +58,7 @@ export const SideBar: React.FC = () => {
       <Sidebar
         side="left"
         variant="floating"
-        className="border border-sidebar-border rounded-lg shadow-sm lg:block hidden sm:hidden md:hidden "
+        className="border border-sidebar-border rounded-lg shadow-sm lg:block hidden sm:hidden md:hidden hover:shadow-md transition-shadow duration-200"
       >
         <SidebarContent>
           <SidebarGroup>
@@ -70,38 +70,52 @@ export const SideBar: React.FC = () => {
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     onClick={() => setIsTasksOpen(!isTasksOpen)}
-                    className="flex items-center justify-between py-2 px-2"
+                    className="flex items-center justify-between py-2 px-2 transition-colors duration-200 hover:pl-2"
                   >
-                    <div className="flex items-center gap-3 hover:cursor-pointer">
-                      <Calendar className="h-5 w-5" />
+                    <div className="flex items-center gap-3">
+                      <Calendar className="h-5 w-5 transition-transform duration-200 group-hover:scale-110" />
                       <span className="text-base font-medium">Tasks</span>
                     </div>
-                    {isTasksOpen ? (
-                      <ChevronDown className="h-5 w-5 hover:cursor-pointer" />
-                    ) : (
-                      <ChevronRight className="h-5 w-5 hover:cursor-pointer" />
-                    )}
+                    <ChevronDown 
+                      className={`h-5 w-5 transition-transform duration-300 ease-in-out ${
+                        isTasksOpen ? 'rotate-180' : 'rotate-0'
+                      }`}
+                    />
                   </SidebarMenuButton>
 
-                  {isTasksOpen && (
-                    <div className="pl-5 mt-1 space-y-1 ">
-                      {taskItems.map((item) => (
-                        <SidebarMenuButton
-                          key={item.title}
-                          asChild
-                          className="h-8 text-sm hover:cursor-pointer"
-                        >
-                          <a
-                            onClick={() => navigate(item.url)}
-                            className="flex items-center gap-3"
+                  <AnimatePresence>
+                    {isTasksOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0, y: -10 }}
+                        animate={{ opacity: 1, height: "auto", y: 0 }}
+                        exit={{ opacity: 0, height: 0, y: -10 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="pl-5 mt-1 space-y-1"
+                      >
+                        {taskItems.map((item, index) => (
+                          <motion.div
+                            key={item.title}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.1 }}
                           >
-                            <item.icon className="h-5 w-5" />
-                            <span className="text-base">{item.title}</span>
-                          </a>
-                        </SidebarMenuButton>
-                      ))}
-                    </div>
-                  )}
+                            <SidebarMenuButton
+                              asChild
+                              className="h-8 text-sm transition-all duration-200 hover:pl-2"
+                            >
+                              <a
+                                onClick={() => navigate(item.url)}
+                                className="flex items-center gap-3 group"
+                              >
+                                <item.icon className="h-5 w-5 transition-transform duration-200 group-hover:scale-110" />
+                                <span className="text-base">{item.title}</span>
+                              </a>
+                            </SidebarMenuButton>
+                          </motion.div>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </SidebarMenuItem>
 
                 {adminItems.map((item) => (
@@ -110,9 +124,9 @@ export const SideBar: React.FC = () => {
                       {isAdmin() && (
                         <a
                           onClick={() => navigate(item.url)}
-                          className="flex items-center gap-3 hover:cursor-pointer py-2 px-2"
+                          className="flex items-center gap-3 py-2 px-2 transition-all duration-200 hover:bg-gray-100 rounded-md group"
                         >
-                          <item.icon className="h-5 w-5" />
+                          <item.icon className="h-5 w-5 transition-transform duration-200 group-hover:scale-110" />
                           <span className="text-base font-medium">
                             {item.title}
                           </span>
@@ -127,9 +141,9 @@ export const SideBar: React.FC = () => {
                     <SidebarMenuButton asChild>
                       <a
                         onClick={() => navigate(item.url)}
-                        className="flex items-center gap-3 hover:cursor-pointer py-2 px-2"
+                        className="flex items-center gap-3 py-2 px-2 transition-all duration-200 hover:bg-gray-100 rounded-md group"
                       >
-                        <item.icon className="h-5 w-5" />
+                        <item.icon className="h-5 w-5 transition-transform duration-200 group-hover:scale-110" />
                         <span className="text-base font-medium">
                           {item.title}
                         </span>
@@ -143,8 +157,13 @@ export const SideBar: React.FC = () => {
         </SidebarContent>
       </Sidebar>
 
-      {/* Mobile Menu */}
-      <div className="lg:hidden fixed bottom-0 left-0 w-full bg-white shadow-md border-t border-gray-200">
+      {/* Mobile Menu with animations */}
+      <motion.div 
+        className="lg:hidden fixed bottom-0 left-0 w-full bg-white shadow-md border-t border-gray-200"
+        initial={{ y: "100%" }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
         <nav className="flex justify-around py-2">
           {taskItems.map((item) => (
             <button
@@ -178,7 +197,7 @@ export const SideBar: React.FC = () => {
               </button>
             ))}
         </nav>
-      </div>
+      </motion.div>
     </div>
   );
 };

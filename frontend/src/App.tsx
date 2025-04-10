@@ -3,6 +3,7 @@ import { UsersSettings, UserLogin, SchedulePage, UsersTasks } from './pages';
 import { AuthProvider, ThemeProvider } from './contexts';
 import { LayoutWeb } from './contexts/layout.context';
 import { Toaster } from "sonner";
+import { HubPage } from './pages/hub.page';
 
 function App() {
   return (
@@ -10,8 +11,12 @@ function App() {
       <AuthProvider>
         <Router>
           <Routes>
+              <Route path = "/" element={
+                
+                    <HubPage/>
+                } />
               <Route path="/login" element={<UserLogin />} />
-              <Route path="/" element={
+              <Route path="/Schedule" element={
                 <LayoutWeb>
                   <SchedulePage />
                 </LayoutWeb>
